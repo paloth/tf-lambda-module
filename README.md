@@ -1,4 +1,5 @@
 # tf-lambda-module
+
 Terraform lambda module
 
 This is a module to create lambda with terraform
@@ -7,5 +8,10 @@ This is a module to create lambda with terraform
 
 - [x] Create files
 - [ ] Write module
+  - [ ] Define variables
+  - [ ] Define outputs
+  - [ ] Define resources
 - [ ] Test module
-- [ ] ~~sd~~
+- [ ] Document the module
+  - [ ] Inputs
+  - [ ] Outputs
