@@ -9,9 +9,9 @@ Terraform version 0.12
 
 - [x] Create files
 - [ ] Write module
-  - [ ] Define variables
+  - [x] Define variables
   - [ ] Define outputs
-  - [ ] Define resources
+  - [x] Define resources
 - [ ] Test module
 - [ ] Document the module
   - [ ] Inputs
