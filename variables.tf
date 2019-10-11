@@ -1,10 +1,14 @@
+### Generale variables
 variable "region" {
   type    = string
   default = "eu-west-1"
 }
 
 ### Lambda function variables
-variable "description" {
+
+## Function variables
+
+variable "function_description" {
   type    = string
   default = null
 }
@@ -18,35 +22,48 @@ variable "function_name" {
   type = string
 }
 
-variable "lambda_role_arn" {
+variable "function_role_arn" {
   type = string
 }
 
-variable "handler" {
+variable "function_handler" {
   type = string
 }
 
-variable "runtime" {
-  type = string
+## Function config variables
+
+variable "function_runtime" {
+  type    = string
+  default = "python3.7"
 }
 
-variable "reserved_concurrent_executions" {
+variable "function_reserved_concurrent_executions" {
   type    = number
   default = -1
 }
 
-variable "lambda_memory_size" {
+variable "function_memory_size" {
   description = "Memory size for the Lambda function."
   type        = number
   default     = 128
 }
 
-variable "environment" {
+variable "function_timeout" {
+  description = "Set the function timeout"
+  type        = number
+  default     = 300
+}
+
+variable "function_tags" {
+  description = "List of tags to attach to the function"
+  type        = object({ tags = map(string) })
+  default     = null
+}
+
+variable "function_environment" {
   description = "List of lambda's environment variables"
-  type = object({
-    variables = map(string)
-  })
-  default = null
+  type        = object({ variables = map(string) })
+  default     = null
 }
 
 ### Packaging variables
@@ -69,12 +86,30 @@ variable "output_path" {
   default     = null
 }
 
-### Lambda trigger variables
+### CloudWatch event variables
+
+variable "event_name" {
+  description = "Name of the event to trigger the function"
+  type        = string
+  default     = ""
+}
+
+variable "event_description" {
+  description = "Description of the event to trigger the function"
+  type        = string
+  default     = ""
+}
+
+variable "is_event_enabled" {
+  description = "Bool to activate or deactivate the lambda trigger"
+  type        = bool
+  default     = true
+}
 
 ### Log variables
 
-variable "log_retention_days"{
+variable "log_retention_days" {
   description = "Number of log retention days"
-  type = number
-  default = 14
+  type        = number
+  default     = 14
 }

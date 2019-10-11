@@ -5,21 +5,28 @@ data "archive_file" "packaging" {
 }
 
 resource "aws_lambda_function" "function" {
-  description = var.description
+  description = var.function_description
 
   filename      = data.archive_file.packaging.output_path
   function_name = var.function_name
-  role          = var.lambda_role_arn
+  role          = var.function_role_arn
   handler       = var.handler
 
   source_code_hash = filebase64sha256(data.archive_file.packaging.output_path)
 
-  runtime                        = var.runtime
-  memory_size                    = var.lambda_memory_size
-  reserved_concurrent_executions = var.reserved_concurrent_executions
+  runtime                        = var.function_runtime
+  memory_size                    = var.function_memory_size
+  reserved_concurrent_executions = var.function_reserved_concurrent_executions
+
+  dynamic tags {
+    for_each = var.function_tags == null ? [] : [var.function_tags]
+    content {
+      tags = function_tags.value.tags
+    }
+  }
 
   dynamic environment {
-    for_each = var.environment == null ? [] : [var.environment]
+    for_each = var.function_environment == null ? [] : [var.function_environment]
     content {
       variables = environment.value.variables
     }
