@@ -1,4 +1,14 @@
+variable "region" {
+  type    = string
+  default = "eu-west-1"
+}
+
 ### Lambda function variables
+variable "description" {
+  type    = string
+  default = null
+}
+
 variable "filename" {
   type    = string
   default = null
@@ -8,8 +18,21 @@ variable "function_name" {
   type = string
 }
 
+variable "lambda_role_arn" {
+  type = string
+}
+
 variable "handler" {
   type = string
+}
+
+variable "runtime" {
+  type = string
+}
+
+variable "reserved_concurrent_executions" {
+  type    = number
+  default = -1
 }
 
 variable "lambda_memory_size" {
@@ -19,6 +42,7 @@ variable "lambda_memory_size" {
 }
 
 variable "environment" {
+  description = "List of lambda's environment variables"
   type = object({
     variables = map(string)
   })
