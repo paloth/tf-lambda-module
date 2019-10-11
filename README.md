@@ -3,6 +3,7 @@
 Terraform lambda module
 
 This is a module to create lambda with terraform
+Terraform version 0.12
 
 ## To do
 
@@ -15,3 +16,15 @@ This is a module to create lambda with terraform
 - [ ] Document the module
   - [ ] Inputs
   - [ ] Outputs
+
+## Resources needed
+
+1. Lambda
+2. CloudWatch LogGroup
+3. CloudWatch Event
+4. Iam Role
+
+## Outputs
+
+1. Lambda Arn
+2. Lambda Name
