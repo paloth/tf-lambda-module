@@ -49,4 +49,32 @@ variable "environment" {
   default = null
 }
 
+### Packaging variables
+
+variable "packaging_type" {
+  description = "The type of the lambda packaging (default is zip)"
+  type        = string
+  default     = "zip"
+}
+
+variable "source_dir" {
+  description = "Path to the directory to package"
+  type        = string
+  default     = null
+}
+
+variable "output_path" {
+  description = "Path to the packaged file with extension"
+  type        = string
+  default     = null
+}
+
 ### Lambda trigger variables
+
+### Log variables
+
+variable "log_retention_days"{
+  description = "Number of log retention days"
+  type = number
+  default = 14
+}
