@@ -1,7 +1,7 @@
 data "archive_file" "packaging" {
   type        = var.packaging_type
-  source_file = var.source_file
-  output_path = var.output_path
+  source_file = var.archive_source_file
+  output_path = var.archive_output_path
 }
 
 resource "aws_lambda_function" "function" {
@@ -10,34 +10,28 @@ resource "aws_lambda_function" "function" {
   filename      = data.archive_file.packaging.output_path
   function_name = var.function_name
   role          = var.function_role_arn
-  handler       = var.handler
+  handler       = "${var.function_filename}.${var.function_handler}"
 
   source_code_hash = filebase64sha256(data.archive_file.packaging.output_path)
 
   runtime                        = var.function_runtime
   memory_size                    = var.function_memory_size
   reserved_concurrent_executions = var.function_reserved_concurrent_executions
+  timeout                        = var.function_timeout
 
-  dynamic tags {
-    for_each = var.function_tags == null ? [] : [var.function_tags]
-    content {
-      tags = function_tags.value.tags
-    }
-  }
+  tags = var.function_tags
 
-  dynamic environment {
-    for_each = var.function_environment == null ? [] : [var.function_environment]
-    content {
-      variables = environment.value.variables
-    }
+  environment {
+    variables = var.function_environment
   }
 }
 
 resource "aws_cloudwatch_event_rule" "trigger_function" {
-  name          = var.event_name
-  description   = var.event_description
-  event_pattern = ""
-  is_enabled    = var.is_event_enabled
+  name                = var.event_name
+  description         = var.event_description
+  event_pattern       = ""
+  schedule_expression = "rate(5 minutes)"
+  is_enabled          = var.is_event_enabled
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_event" {
