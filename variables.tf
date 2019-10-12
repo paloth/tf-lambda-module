@@ -1,9 +1,3 @@
-### Generale variables
-variable "region" {
-  type    = string
-  default = "eu-west-1"
-}
-
 ### Lambda function variables
 
 ## Function variables
@@ -13,7 +7,7 @@ variable "function_description" {
   default = null
 }
 
-variable "filename" {
+variable "function_filename" {
   type    = string
   default = null
 }
@@ -27,7 +21,8 @@ variable "function_role_arn" {
 }
 
 variable "function_handler" {
-  type = string
+  type    = string
+  default = "handler"
 }
 
 ## Function config variables
@@ -51,19 +46,19 @@ variable "function_memory_size" {
 variable "function_timeout" {
   description = "Set the function timeout"
   type        = number
-  default     = 300
+  default     = 900
 }
 
 variable "function_tags" {
   description = "List of tags to attach to the function"
-  type        = object({ tags = map(string) })
-  default     = null
+  type        = map
+  default     = {}
 }
 
 variable "function_environment" {
   description = "List of lambda's environment variables"
-  type        = object({ variables = map(string) })
-  default     = null
+  type        = map
+  default     = {}
 }
 
 ### Packaging variables
@@ -74,13 +69,13 @@ variable "packaging_type" {
   default     = "zip"
 }
 
-variable "source_dir" {
+variable "archive_source_file" {
   description = "Path to the directory to package"
   type        = string
   default     = null
 }
 
-variable "output_path" {
+variable "archive_output_path" {
   description = "Path to the packaged file with extension"
   type        = string
   default     = null
