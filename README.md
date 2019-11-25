@@ -20,6 +20,7 @@ Terraform version 0.12
 - [ ] Document the module
   - [ ] Inputs
   - [ ] Outputs
+  - [x] Example
 
 ## Resources needed
 
@@ -32,25 +33,7 @@ Terraform version 0.12
 
 ### Mandatories Inputs
 
-```terraform
-module "lambda" {
-  source = "../tf-lambda-module"
-
-  archive_source_file = "./test.py"
-  archive_output_path = "./test.zip"
-
-  function_description = "this is a test"
-  function_name        = "test"
-  function_role_arn    = "arn:aws:iam::791927302548:role/run_job_dev_lambda_zappa"
-  function_filename    = "test"
-
-  function_environment = { test = "value", other = "value2", another = "one" }
-  function_tags        = { Mytag = "lol" }
-
-  event_name        = "test"
-  event_description = "test descr"
-}
-```
+TBD
 
 ### Optional Inputs
 
@@ -60,3 +43,25 @@ TBD
 
 1. Lambda Arn
 2. Lambda Name
+
+### Example
+
+```terraform
+module "lambda" {
+  source = "../tf-lambda-module"
+
+  archive_source_file = "./file_name.py"
+  archive_output_path = "./archive_name.zip"
+
+  function_description = "Function Description"
+  function_name        = "Function-Name"
+  function_role_arn    = "arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
+  function_filename    = "file_name"
+
+  function_environment = { var1 = "value1", var2 = "value2", var3 = "value3" }
+  function_tags        = { key1 = "TagValue1", key2 = "TagValue2" }
+
+  event_name        = "event_name"
+  event_description = "Event description"
+}
+```
