@@ -7,6 +7,16 @@ variable "function_description" {
   default = null
 }
 
+variable "src_bucket_name" {
+  type    = string
+  default = null
+}
+
+variable "src_key" {
+  type    = string
+  default = null
+}
+
 variable "function_filename" {
   type    = string
   default = null
@@ -38,7 +48,7 @@ variable "function_reserved_concurrent_executions" {
 }
 
 variable "function_memory_size" {
-  description = "Memory size for the Lambda function."
+  description = "Memory size for the Lambda function"
   type        = number
   default     = 128
 }
@@ -69,7 +79,7 @@ variable "packaging_type" {
   default     = "zip"
 }
 
-variable "archive_source_file" {
+variable "archive_source_dir" {
   description = "Path to the directory to package"
   type        = string
   default     = null
@@ -79,6 +89,26 @@ variable "archive_output_path" {
   description = "Path to the packaged file with extension"
   type        = string
   default     = null
+}
+
+### Lambda Execution variables
+variable "execution_source" {
+  description = "Source of the lamabda execution"
+  default     = "Event"
+  type        = string
+}
+
+variable "principal_source" {
+  description = "Principal of the execution source"
+  type        = map
+  default = {
+    Event      = "events.amazonaws.com"
+    Sqs        = "sqs.amazonaws.com"
+    Sns        = "sns.amazonaws.com"
+    ApiGateWay = "apigateway.amazonaws.com"
+    S3         = "s3.amazonaws.com"
+    Lambda     = "lambda.amazonaws.com"
+  }
 }
 
 ### CloudWatch event variables
@@ -99,6 +129,18 @@ variable "is_event_enabled" {
   description = "Bool to activate or deactivate the lambda trigger"
   type        = bool
   default     = true
+}
+
+variable "event_pattern" {
+  description = "Event pattern described a JSON object"
+  type        = any
+  default     = ""
+}
+
+variable "schedule_expression" {
+  description = "Schedule expression formatted by cron expression or rate"
+  type        = string
+  default     = ""
 }
 
 ### Log variables
