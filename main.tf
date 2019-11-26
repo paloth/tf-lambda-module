@@ -14,10 +14,10 @@ resource "aws_s3_bucket_object" "upload_lambda" {
 resource "aws_lambda_function" "function" {
   description   = var.function_description
   s3_bucket     = var.src_bucket_name
-  s3_key        = "lambda_function/${var.src_key}"
-  function_name = var.function_name
+  s3_key        = aws_s3_bucket_object.upload_lambda.key
+  function_name = replace(var.function_name, "_", "-")
   role          = var.function_role_arn
-  handler       = "${element(split(".", data.archive_file.packaging.output_path), 0)}.${var.function_handler}"
+  handler       = "${var.function_filename}.${var.function_handler}"
 
   source_code_hash = filebase64sha256(data.archive_file.packaging.output_path)
 
